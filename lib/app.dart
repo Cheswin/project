@@ -24,7 +24,7 @@ class Abc extends StatelessWidget {
      appBar: AppBar(
 backgroundColor: Colors.green,
 elevation: 10,
-title: Text('student lzist'),
+title: Text('student list'),
 centerTitle: true,
       ),
 
