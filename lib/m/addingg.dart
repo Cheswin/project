@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:student/m/bottomSheet.dart';
+import 'package:student/model/addingModel.dart';
+import 'package:student/sharedPref.dart';
 
 class Addingg extends StatelessWidget {
+  // var profiles;
+
+  List<String> profiles;
+  Addingg({required this.profiles});
+  TextEditingController name = TextEditingController();
+  TextEditingController mail = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController address = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +42,7 @@ class Addingg extends StatelessWidget {
                         onTap: () {
                           showModalBottomSheet(
                             context: context,
-                             builder: ((builder)=>Ca()),
+                            builder: ((builder) => Ca()),
                           );
                         },
                         child: Icon(
@@ -45,13 +55,10 @@ class Addingg extends StatelessWidget {
                   ],
                 ),
               ),
-     
-
-
-
               Padding(
                 padding: EdgeInsets.all(15),
                 child: TextField(
+                  controller: name,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
@@ -73,6 +80,7 @@ class Addingg extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(15),
                 child: TextField(
+                  controller: mail,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
@@ -94,6 +102,7 @@ class Addingg extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(15),
                 child: TextField(
+                  controller: phone,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
@@ -115,6 +124,7 @@ class Addingg extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(15),
                 child: TextField(
+                  controller: address,
                   keyboardType: TextInputType.text,
                   maxLines: 3,
                   decoration: InputDecoration(
@@ -134,15 +144,42 @@ class Addingg extends StatelessWidget {
                       suffixIcon: Icon(Icons.arrow_forward)),
                 ),
               ),
-
-
-
               RaisedButton(
                 color: Colors.blue,
                 child: Text("save"),
                 textColor: Colors.white,
-                onPressed: () {},
-              )
+                onPressed: () async {
+                  AddingModel ad = AddingModel(
+                      name: "${name.text}",
+                      email: "${mail.text}",
+                      phone: "${phone.text}",
+                      address: "${address.text}");
+
+                  await saveData("${mail.text}", ad);
+                  profiles.add(mail.text);
+                  await saveList(profiles);
+
+                  final snackBar = SnackBar(content: Text('User Added'));
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                },
+              ),
+              // RaisedButton(
+              //   color: Colors.blue,
+              //   child: Text("save"),
+              //   textColor: Colors.white,
+              //   onPressed: () {
+              //     AddingModel ad = AddingModel(
+              //         name: "${name.text}",
+              //         email: "${mail.text}",
+              //         phone: "${phone.text}",
+              //         address: "${address.text}");
+
+              //     saveData("${name.text} + ${mail.text}", ad);
+              //   },
+              // )
             ],
           ),
         ),
